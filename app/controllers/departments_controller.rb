@@ -7,7 +7,8 @@ class DepartmentsController < ApplicationController
 
   def show
     the_id = params.fetch("path_id")
-    @department = Department.where({:id => the_id })
+    matching_records = Department.where({:id => the_id })
+    @department = matching_records.at(0)
 
     render({ :template => "departments/show" })
   end
@@ -40,9 +41,9 @@ class DepartmentsController < ApplicationController
 
   def destroy
     the_id = params.fetch("path_id")
-    @department = Department.where({ :id => the_id }).at(0)
+    department = Department.where({ :id => the_id }).at(0)
 
-    @department.destroy
+    department.destroy
 
     redirect_to("/departments", { :notice => "Department deleted successfully."} )
   end
